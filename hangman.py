@@ -78,9 +78,16 @@ def take_turn(secret_word, populated_word, guess_list, turn_counter):
 			take_turn(secret_word, populated_word, guess_list,turn_counter)
 		else:
 			turn_counter = turn_counter + 1
+
 			guess_list.append(chosen_letter)
+			
 			if chosen_letter in list(secret_word):
-				print "You got one right!"
+				number_instances = list(secret_word).count(chosen_letter)
+				if number_instances < 2:
+					print "There is 1 %s in your secret word." % chosen_letter
+				else:
+					print "There are %s instances of %s in your secret word." % (number_instances, chosen_letter)
+
 				populate_word(secret_word, populated_word, guess_list)
 
 			else:
