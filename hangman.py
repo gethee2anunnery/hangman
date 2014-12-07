@@ -5,7 +5,7 @@ import csv
 def prompt_name():
 	print "Please enter your name."
 	name = raw_input('> ')
-	print "Welcome to hangman, %s! To get started, please choose a letter." % name
+	print "Welcome to Hangman, %s! To get started, please choose a letter." % (name)
 
 def validate_input(letter):
 	input_valid = len(letter) == 1 and letter.isalpha()
@@ -49,14 +49,18 @@ def play_again():
 		print "That is not one of the valid options. Enter either 'y' or 'n'."
 		play_again()
 
+def max_turns():
+	print "You've used up your turns. You lose!"
+	play_again()
+
 
 def check_for_win(populated_word, secret_word):
 	if not '_' in populated_word:
-		print "You won!!"
+		print "You won!! The secret word was '%s'." % (secret_word)
 		play_again()
 		
 	else:
-		print "No win yet. Keep going!"
+		pass
 
 
 def get_word():
@@ -65,35 +69,45 @@ def get_word():
 	return random.choice(word_list)
 
 
-
 def take_turn(secret_word, populated_word, guess_list, turn_counter):
-	print "Your secret word -> %s" % populated_word
-	print "Your guesses so far -> %s" % guess_list
+	maxed_out = MAX_TURNS - turn_counter < 1
+	if maxed_out:
+		max_turns()
 
-	chosen_letter = prompt_letter()
+	else:
+		print "You have %s turns left." % (MAX_TURNS - turn_counter)
+		print "Your secret word -> %s" % populated_word
+		print "Your guesses so far -> %s" % guess_list
+		
 
-	if chosen_letter:
-		if chosen_letter in guess_list:
-			print "You already guessed that letter! Give us a different one."
-			take_turn(secret_word, populated_word, guess_list,turn_counter)
-		else:
-			turn_counter = turn_counter + 1
+		chosen_letter = prompt_letter()
 
-			guess_list.append(chosen_letter)
-			
-			if chosen_letter in list(secret_word):
-				number_instances = list(secret_word).count(chosen_letter)
-				if number_instances < 2:
-					print "There is 1 %s in your secret word." % chosen_letter
-				else:
-					print "There are %s instances of %s in your secret word." % (number_instances, chosen_letter)
-
-				populate_word(secret_word, populated_word, guess_list)
-
+		if chosen_letter:
+			if chosen_letter in guess_list:
+				print "You already guessed that letter! Give us a different one."
+				take_turn(secret_word, populated_word, guess_list,turn_counter)
 			else:
-				print "No %s in that word. Guess again." % chosen_letter
 
-	take_turn(secret_word, populated_word, guess_list, turn_counter)
+				turn_counter = turn_counter + 1
+
+				
+				guess_list.append(chosen_letter)
+
+				if chosen_letter in list(secret_word):
+					number_instances = list(secret_word).count(chosen_letter)
+					if number_instances < 2:
+						print "There is 1 %s in your secret word." % chosen_letter
+					else:
+						print "There are %s instances of %s in your secret word." % (number_instances, chosen_letter)
+
+					populate_word(secret_word, populated_word, guess_list)
+
+				else:
+					print "No %s in that word." % chosen_letter
+
+				
+
+		take_turn(secret_word, populated_word, guess_list, turn_counter)
 
 
 def start_game():
