@@ -6,15 +6,29 @@ def prompt_name():
 	print "enter your name"
 	name = raw_input('> ')
 	print "welcome to hangman, %s! To get started, please choose a letter." % name
-	return name
+
+def validate(letter):
+	input_valid = len(letter) == 1 and letter.isalpha()
+	return input_valid
+
 
 def prompt_letter():
+	print "prompting letter..."
 	letter = raw_input('..> ')
-	print "you chose '%s'!" % (letter)
+	is_valid = validate(letter)
 
+	if not is_valid:
+		print "That is not a valid input. Please try again."
+		letter = prompt_letter()
+		
+	else:
+		print "you chose '%s'!" % (letter)
+		
 	return letter
 
+
 def populate_word(secret_word, populated_word, guess_list):
+	print "populating word..."
 	letters = list(secret_word)
 	index = 0
 
@@ -30,6 +44,7 @@ def populate_word(secret_word, populated_word, guess_list):
 	check_for_win(populated_word, secret_word)
 
 def play_again():
+
 	print "play again? y/N"
 	answer = raw_input('>>')
 	if answer=='y':
@@ -42,40 +57,51 @@ def play_again():
 
 
 def check_for_win(populated_word, secret_word):
+	print "checking for win..."
 	if not '_' in populated_word:
 		print "YOU WON!!"
 		play_again()
 		
 	else:
-		take_turn(secret_word, populated_word)
+		print "no win! going again"
 
 
 def get_word():
+	print "getting word..."
 	word_list = csv.reader(open('word_list.csv', 'r'))
 	word_list = sum([i for i in word_list],[]) #To flatten the list
 	return random.choice(word_list)
 
-def take_turn(secret_word, populated_word, win=False):
+def take_turn(secret_word, populated_word, guess_list):
+	print "taking turn..."
+
+	print "your guesses so far -> %s" % guess_list
 	chosen_letter = prompt_letter()
-	guess_list.append(chosen_letter)
-	print "guess list %s" % guess_list
 
-	if not win:
-		if chosen_letter in list(secret_word):
-			print "you got one!"
-			populate_word(secret_word,populated_word,guess_list)
+	if chosen_letter:
+		if chosen_letter in guess_list:
+			print "You already guessed that letter! Give us a different one."
+			take_turn(secret_word,populated_word, guess_list)
 		else:
-			print "no %s in that word, try again" % chosen_letter
+			guess_list.append(chosen_letter)
+			if chosen_letter in list(secret_word):
+				print "You got one right!"
+				populate_word(secret_word,populated_word,guess_list)
 
-		take_turn(secret_word,populated_word)
+			else:
+				print "No %s in that word. Guess again." % chosen_letter
+
+	take_turn(secret_word,populated_word, guess_list)
 
 
 def start_game():
+	print "starting game..."
 	prompt_name()
 	guess_list = []
+
 	secret_word = get_word()
 	populated_word = ['_' for letter in list(secret_word) ]
-	take_turn(secret_word, populated_word)
+	take_turn(secret_word, populated_word, guess_list)
 
 guess_list = []
 start_game()
