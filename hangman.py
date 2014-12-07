@@ -4,12 +4,12 @@ import csv
 
 def prompt_name():
 	print "enter your name"
-	name = raw_input('>')
+	name = raw_input('> ')
 	print "welcome to hangman, %s! To get started, please choose a letter." % name
 	return name
 
 def prompt_letter():
-	letter = raw_input('..>')
+	letter = raw_input('..> ')
 	print "you chose '%s'!" % (letter)
 
 	return letter
@@ -29,21 +29,26 @@ def populate_word(secret_word, populated_word, guess_list):
 	print "Your word ---> %s"  % populated_word
 	check_for_win(populated_word, secret_word)
 
-	
+def play_again():
+	print "play again? y/N"
+	answer = raw_input('>>')
+	if answer=='y':
+		start_game()
+	elif answer=='N':
+		raise SystemExit
+	else:
+		print "that is not one of the valid options."
+		play_again()
+
 
 def check_for_win(populated_word, secret_word):
 	if not '_' in populated_word:
-		answer = raw_input('You won! Play again? y/N')
-		if answer=="y":
-			start_game()
-		elif answer=="N":
-			raise SystemExit
-		else:
-			print "that is not one of the valid options. Try again."
-
+		print "YOU WON!!"
+		play_again()
+		
 	else:
 		"more turn"
-		take_turn(secret_word, populated_word, win=False)
+		take_turn(secret_word, populated_word)
 
 
 def get_word():
@@ -58,7 +63,6 @@ def take_turn(secret_word, populated_word, win=False):
 	print guess_list
 
 	if not win:
-		
 		if chosen_letter in list(secret_word):
 			print "you got one!"
 			populate_word(secret_word,populated_word,guess_list)
@@ -67,10 +71,6 @@ def take_turn(secret_word, populated_word, win=False):
 
 		
 		take_turn(secret_word,populated_word)
-	
-	else:
-		win = True
-		print "ding ding! you win!"
 
 
 def start_game():
