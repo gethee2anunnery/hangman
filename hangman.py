@@ -3,9 +3,9 @@ import csv
 
 
 def prompt_name():
-	print "enter your name"
+	print "Please enter your name."
 	name = raw_input('> ')
-	print "welcome to hangman, %s! To get started, please choose a letter." % name
+	print "Welcome to hangman, %s! To get started, please choose a letter." % name
 
 def validate(letter):
 	input_valid = len(letter) == 1 and letter.isalpha()
@@ -13,7 +13,6 @@ def validate(letter):
 
 
 def prompt_letter():
-	print "prompting letter..."
 	letter = raw_input('..> ')
 	is_valid = validate(letter)
 
@@ -22,13 +21,12 @@ def prompt_letter():
 		letter = prompt_letter()
 		
 	else:
-		print "you chose '%s'!" % (letter)
+		print "You chose '%s'!" % (letter)
 		
 	return letter
 
 
 def populate_word(secret_word, populated_word, guess_list):
-	print "populating word..."
 	letters = list(secret_word)
 	index = 0
 
@@ -40,42 +38,39 @@ def populate_word(secret_word, populated_word, guess_list):
 				break
 			populated_word[index] = letter
 			index +=1
-	print "Your word ---> %s"  % populated_word
 	check_for_win(populated_word, secret_word)
 
 def play_again():
 
-	print "play again? y/N"
-	answer = raw_input('>>')
-	if answer=='y':
+	print "Play again? y/n"
+	answer = raw_input('>> ')
+	if answer == 'y':
 		start_game()
-	elif answer=='N':
+	elif answer == 'n':
 		raise SystemExit
 	else:
-		print "that is not one of the valid options."
+		print "That is not one of the valid options. Enter either 'y' or 'n'."
 		play_again()
 
 
 def check_for_win(populated_word, secret_word):
-	print "checking for win..."
 	if not '_' in populated_word:
-		print "YOU WON!!"
+		print "You won!!"
 		play_again()
 		
 	else:
-		print "no win! going again"
+		print "No win yet. Keep going!"
 
 
 def get_word():
-	print "getting word..."
 	word_list = csv.reader(open('word_list.csv', 'r'))
 	word_list = sum([i for i in word_list],[]) #To flatten the list
 	return random.choice(word_list)
 
 def take_turn(secret_word, populated_word, guess_list):
-	print "taking turn..."
+	print "Your secret word -> %s" % populated_word
+	print "Your guesses so far -> %s" % guess_list
 
-	print "your guesses so far -> %s" % guess_list
 	chosen_letter = prompt_letter()
 
 	if chosen_letter:
@@ -95,14 +90,12 @@ def take_turn(secret_word, populated_word, guess_list):
 
 
 def start_game():
-	print "starting game..."
 	prompt_name()
 	guess_list = []
-
 	secret_word = get_word()
 	populated_word = ['_' for letter in list(secret_word) ]
 	take_turn(secret_word, populated_word, guess_list)
 
-guess_list = []
+
 start_game()
 
