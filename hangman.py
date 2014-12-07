@@ -47,7 +47,6 @@ def check_for_win(populated_word, secret_word):
 		play_again()
 		
 	else:
-		"more turn"
 		take_turn(secret_word, populated_word)
 
 
@@ -57,10 +56,9 @@ def get_word():
 	return random.choice(word_list)
 
 def take_turn(secret_word, populated_word, win=False):
-
 	chosen_letter = prompt_letter()
 	guess_list.append(chosen_letter)
-	print guess_list
+	print "guess list %s" % guess_list
 
 	if not win:
 		if chosen_letter in list(secret_word):
@@ -69,13 +67,12 @@ def take_turn(secret_word, populated_word, win=False):
 		else:
 			print "no %s in that word, try again" % chosen_letter
 
-		
 		take_turn(secret_word,populated_word)
 
 
 def start_game():
 	prompt_name()
-	
+	guess_list = []
 	secret_word = get_word()
 	populated_word = ['_' for letter in list(secret_word) ]
 	take_turn(secret_word, populated_word)
