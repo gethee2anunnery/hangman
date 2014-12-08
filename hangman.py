@@ -2,7 +2,7 @@ import random
 import csv
 
 
-def name_promp():
+def name_prompt():
 	print "Please enter your name."
 	name = raw_input('> ')
 	print "Welcome to Hangman, %s! To get started, please choose a letter." % (name)
@@ -131,7 +131,7 @@ def take_turn(secret_word, populated_word, guess_list, turn_counter):
 
 
 def start_game():
-	name_promp()
+	name_prompt()
 	guess_list = []
 	turn_counter = 0
 	secret_word = get_word()
