@@ -15,7 +15,7 @@ def validate_input(input):
 
 
 def validate_guess(secret_word, guess):
-	if secret_word == guess.lower():
+	if secret_word == (guess.lower()).strip():
 		print "That's right!! You won!! The secret word was '%s'." % (secret_word)
 		play_again()
 	else:
