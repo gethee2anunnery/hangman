@@ -23,7 +23,7 @@ def validate_guess(secret_word, guess):
 
 
 def guess_prompt():
-	guess = raw_input('What\'s your guess?..> ')
+	guess = raw_input('Type your guess..> ')
 	return guess
 
 
