@@ -87,7 +87,6 @@ def get_word():
 
 def take_turn(secret_word, populated_word, guess_list, turn_counter):
 	maxed_out = MAX_TURNS - turn_counter < 1
-	#populated_word_readable = " ".join(populated_word)
 
 	if maxed_out:
 		max_turns()
@@ -118,12 +117,10 @@ def take_turn(secret_word, populated_word, guess_list, turn_counter):
 						print "There are %s instances of %s in your secret word." % (number_instances, chosen_letter)
 
 					populate_word(secret_word, populated_word, guess_list)
-					#print "Your secret word -> %s" % (" ".join(populated_word))
 
 				else:
 					turn_counter = turn_counter + 1
 					print "No %s in that word." % chosen_letter
-					#print "Your secret word -> %s" % (" ".join(populated_word))
 
 		elif chosen_letter and is_guess:
 			guess = guess_prompt()
