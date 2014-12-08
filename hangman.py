@@ -95,7 +95,7 @@ def take_turn(secret_word, populated_word, guess_list, turn_counter):
 	else:
 		print "You have %s turns left." % (MAX_TURNS - turn_counter)
 		print "Your secret word -> %s" % populated_word
-		print "Your guesses so far -> %s" % guess_list
+		print "Your letter list -> %s" % guess_list
 		
 		chosen_letter = letter_prompt()
 
