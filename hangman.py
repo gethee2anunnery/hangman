@@ -1,8 +1,11 @@
+import sys
+
 
 def name_prompt():
     print "Please enter your name."
     name = raw_input('> ')
-    print "Welcome to Hangman, %s!" % (name)
+    print ("Welcome to Hangman, %s! You can type control+d"
+           "at any time to exit. " % (name))
 
 
 def validate_input(input):
@@ -146,5 +149,21 @@ def start_game():
     print "Your secret word -> %s" % (" ".join(populated_word))
     take_turn(secret_word, populated_word, guess_list, turn_counter)
 
-MAX_TURNS = 10
-start_game()
+
+def exit():
+    print "Goodbye!"
+    sys.exit(0)
+
+
+def main():
+    try:
+        start_game()
+    except KeyboardInterrupt:
+        exit()
+    except EOFError:
+        exit()
+
+
+if __name__ == "__main__":
+    MAX_TURNS = 10
+    main()
